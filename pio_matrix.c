@@ -6,35 +6,16 @@
 #include "hardware/clocks.h"
 #include "hardware/adc.h"
 #include "pico/bootrom.h"
-
-//arquivo .pio
 #include "pio_matrix.pio.h"
+#include "tecla1_frames.h"//biblioteca com o desenho da tecla 1 
+#include "init_GPIO.h"//biblioteca que inicializa teclado e o botao
 
 //número de LEDs
 #define NUM_PIXELS 25
-
+//Debounce (em milissegundos)
+#define DEBOUNCE_TIME 300
 //pino de saída
-#define OUT_PIN 7
-
-//botão de interupção
-const uint button_0 = 5;
-const uint button_1 = 6;
-
-
-//Alterei aqui para acender todos
-//vetor para criar imagem na matriz de led - 1
-double desenho[25] =   {1.0, 1.0, 0.0, 1.0, 1.0,
-                        0.0, 1.0, 0.0, 1.0, 0.0, 
-                        0.0, 0.0, 0.0, 0.0, 0.0,
-                        1.0, 1.0, 1.0, 1.0, 1.0,
-                        1.0, 0.0, 0.0, 0.0, 1.0};
-
-//vetor para criar imagem na matriz de led - 2
-double desenho2[25] =   {0.0, 0.0, 0.0, 0.0, 0.0,
-                        1.0, 1.0, 0.0, 1.0, 1.0, 
-                        0.0, 0.0, 0.0, 0.0, 0.0,
-                        1.0, 0.0, 0.0, 0.0, 1.0,
-                        1.0, 1.0, 1.0, 1.0, 1.0};
+#define OUT_PIN 10
 
 //imprimir valor binário
 void imprimir_binario(int num) {
@@ -51,37 +32,6 @@ static void gpio_irq_handler(uint gpio, uint32_t events){
 	reset_usb_boot(0,0); //habilita o modo de gravação do microcontrolador
 }
 
-//rotina para definição da intensidade de cores do led
-uint32_t matrix_rgb(double b, double r, double g)
-{
-  unsigned char R, G, B;
-  R = r * 255;
-  G = g * 255;
-  B = b * 255;
-  return (G << 24) | (R << 16) | (B << 8);
-}
-
-//rotina para acionar a matrix de leds - ws2812b
-void desenho_pio(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b){
-
-    for (int16_t i = 0; i < NUM_PIXELS; i++) {
-        
-            valor_led = matrix_rgb(b=0.0, desenho[24-i], g=0.0);
-            pio_sm_put_blocking(pio, sm, valor_led);
-    }
-    imprimir_binario(valor_led);
-}
-
-void desenho_pioVERDE(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b){
-
-    for (int16_t i = 0; i < NUM_PIXELS; i++) {
-        
-            valor_led = matrix_rgb(b=0.0, r=0.0, desenho[24-i]);
-            pio_sm_put_blocking(pio, sm, valor_led);
-    }
-    imprimir_binario(valor_led);
-}
-
 //função principal
 int main()
 {
@@ -96,6 +46,8 @@ int main()
 
     // Inicializa todos os códigos stdio padrão que estão ligados ao binário.
     stdio_init_all();
+    //inicializa teclado e btn0, função no arquivo init_GPIO.h
+    init_teclado_btn0();
 
     printf("iniciando a transmissão PIO");
     if (ok) printf("clock set to %ld\n", clock_get_hz(clk_sys));
@@ -105,37 +57,59 @@ int main()
     uint sm = pio_claim_unused_sm(pio, true);
     pio_matrix_program_init(pio, sm, offset, OUT_PIN);
 
-    //inicializar o botão de interrupção - GPIO5
-    gpio_init(button_0);
-    gpio_set_dir(button_0, GPIO_IN);
-    gpio_pull_up(button_0);
-
-    //inicializar o botão de interrupção - GPIO5
-    gpio_init(button_1);
-    gpio_set_dir(button_1, GPIO_IN);
-    gpio_pull_up(button_1);
-
     //interrupção da gpio habilitada
     gpio_set_irq_enabled_with_callback(button_0, GPIO_IRQ_EDGE_FALL, 1, & gpio_irq_handler);
 
-    while (true) {
-    
-    if(gpio_get(button_1)) //botão em nível alto
+    while (true) 
     {
-        //rotina para escrever na matriz de leds com o emprego de PIO - desenho 1 QUADRADO
-        desenho_pio(desenho, valor_led, pio, sm, r, g, b);
-        sleep_ms(500);
-        desenho_pioVERDE(desenho2, valor_led, pio, sm, r, g, b);
-        sleep_ms(500);
-    }
-    else
-    {
-        //rotina para escrever na matriz de leds com o emprego de PIO - desenho 2 X
-        desenho_pio(desenho2, valor_led, pio, sm, r, g, b);
-    }
+        char tecla = ler_teclado();
+        switch (tecla)
+        {
+        case '1':
+            tecla_1_desenho(valor_led, pio, sm, r, g, b);
+            break;
 
-    sleep_ms(500);
-    printf("\nfrequeência de clock %ld\r\n", clock_get_hz(clk_sys));
+        case '2':
+            
+            break;
+
+        case '3':
+            
+            break;
+
+        case '4':
+            
+            break;
+
+        case '5':
+            
+            break;
+
+        case '6':
+            
+            break;
+
+        case '7':
+            
+            break;
+
+        case '8':
+            
+            break;
+
+        case '9':
+            
+            break;
+
+        case '0':
+            
+            break;
+           
+        default:
+            break;
+        }
+        //tempo de debounce para o botão
+        sleep_ms(DEBOUNCE_TIME);
+        printf("\nfrequência de clock %ld\r\n", clock_get_hz(clk_sys));
     }
-    
 }
