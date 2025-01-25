@@ -8,6 +8,7 @@
 #include "frames.h"//biblioteca com os frames
 #include "config_leds.h"//biblioteca com a config dos leds
 #include <time.h>
+#include "cor.h"
 
 //Debounce (em milissegundos)
 #define DEBOUNCE_TIME 300
@@ -24,13 +25,14 @@ int main()
     uint32_t valor_led;
     double r = 0.0, b = 0.0 , g = 0.0; 
     bool ok;
+    int corr=0;
     ok = set_sys_clock_khz(128000, false);//coloca a frequência de clock para 128 MHz, facilitando a divisão pelo clock    
 
     //configurações da PIO
     uint offset = pio_add_program(pio, &pio_matrix_program);
     uint sm = pio_claim_unused_sm(pio, true);
     pio_matrix_program_init(pio, sm, offset, OUT_PIN);
-    srand(time(NULL));
+    srand(time(NULL)); // ativa os números aleatorios
 
     while (true) 
     {
@@ -70,22 +72,23 @@ int main()
             break;
 
         case '6':
-            generate_random_values(&r, &g, &b);
+            corr++;
+            if (corr==16)
+            {
+                corr=0;
+            }
+            
+            cor(corr,&r, &g, &b);
             setar_leds_misto(tecla6_frame1, valor_led, pio, sm, r, g, b);
             sleep_ms(500);
-            generate_random_values(&r, &g, &b);
             setar_leds_misto(tecla6_frame2, valor_led, pio, sm, r, g, b);
             sleep_ms(500);
-            generate_random_values(&r, &g, &b);
             setar_leds_misto(tecla6_frame3, valor_led, pio, sm, r, g, b);
             sleep_ms(500);
-            generate_random_values(&r, &g, &b);
             setar_leds_misto(tecla6_frame4, valor_led, pio, sm, r, g, b);
             sleep_ms(500);
-            generate_random_values(&r, &g, &b);
             setar_leds_misto(tecla6_frame5, valor_led, pio, sm, r, g, b);
             sleep_ms(500);
-            generate_random_values(&r, &g, &b);
             setar_leds_misto(tecla6_frame6, valor_led, pio, sm, r, g, b);
             sleep_ms(500);
             break;
