@@ -48,4 +48,18 @@ void setar_leds_azul(double *desenho, uint32_t valor_led, PIO pio, uint sm, doub
             pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
+void setar_leds_misto(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b){
+
+    for (int16_t i = 0; i < NUM_PIXELS; i++) {
+        
+            valor_led = matrix_rgb(b*desenho[24-i], r*desenho[24-i], g*desenho[24-i]);
+            pio_sm_put_blocking(pio, sm, valor_led);
+    }
+}
+void generate_random_values(double *val1, double *val2, double *val3) {
+    // Gera valores aleatórios normalizados
+    *val1 = (double)rand() / 1;
+    *val2 = (double)rand() / 1;
+    *val3 = (double)rand() / 1;
+}
 #endif

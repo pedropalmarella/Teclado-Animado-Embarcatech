@@ -7,6 +7,7 @@
 #include "init_GPIO.h"//biblioteca que inicializa teclado e o botao
 #include "frames.h"//biblioteca com os frames
 #include "config_leds.h"//biblioteca com a config dos leds
+#include <time.h>
 
 //Debounce (em milissegundos)
 #define DEBOUNCE_TIME 300
@@ -29,6 +30,7 @@ int main()
     uint offset = pio_add_program(pio, &pio_matrix_program);
     uint sm = pio_claim_unused_sm(pio, true);
     pio_matrix_program_init(pio, sm, offset, OUT_PIN);
+    srand(time(NULL));
 
     while (true) 
     {
@@ -68,7 +70,24 @@ int main()
             break;
 
         case '6':
-            
+            generate_random_values(&r, &g, &b);
+            setar_leds_misto(tecla6_frame1, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            generate_random_values(&r, &g, &b);
+            setar_leds_misto(tecla6_frame2, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            generate_random_values(&r, &g, &b);
+            setar_leds_misto(tecla6_frame3, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            generate_random_values(&r, &g, &b);
+            setar_leds_misto(tecla6_frame4, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            generate_random_values(&r, &g, &b);
+            setar_leds_misto(tecla6_frame5, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            generate_random_values(&r, &g, &b);
+            setar_leds_misto(tecla6_frame6, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
             break;
 
         case '7':
