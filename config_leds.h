@@ -48,4 +48,33 @@ void setar_leds_azul(double *desenho, uint32_t valor_led, PIO pio, uint sm, doub
             pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
+void setar_leds_misto(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b){
+
+    for (int16_t i = 0; i < NUM_PIXELS; i++) {
+        
+            valor_led = matrix_rgb(b*desenho[24-i], r*desenho[24-i], g*desenho[24-i]);
+            pio_sm_put_blocking(pio, sm, valor_led);
+    }
+}
+void generate_random_values(double *val1, double *val2, double *val3) {
+    // Gera valores aleatórios normalizados
+    *val1 = (double)rand() / 1;
+    *val2 = (double)rand() / 1;
+    *val3 = (double)rand() / 1;
+}
+
+// Função para acionar os LEDs quando a tecla 4 é pressionada
+void acionar_leds_tecla4(PIO pio, uint sm) {
+    // Aciona LEDs com um padrão específico quando a tecla 4 for pressionada
+    double desenho[NUM_PIXELS] = {0.0}; // Define o padrão de LEDs
+
+    // Um padrão simples para os LEDs, acendendo todos em vermelho quando a tecla 4 é pressionada
+    for (int i = 0; i < NUM_PIXELS; i++) {
+        desenho[i] = 1.0; // Define todos os LEDs com valor máximo
+    }
+
+    // Aciona os LEDs em vermelho
+    setar_leds_vermelho(desenho, 0, pio, sm, 1.0, 0.0, 0.0); // Acende os LEDs em vermelho
+}
+
 #endif
