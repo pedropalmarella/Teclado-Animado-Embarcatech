@@ -8,6 +8,7 @@
 #include "pico/bootrom.h"
 #include "pio_matrix.pio.h"
 #include "tecla1_frames.h"//biblioteca com o desenho da tecla 1 
+#include "tecla7_frames.h"
 #include "init_GPIO.h"//biblioteca que inicializa teclado e o botao
 
 //número de LEDs
@@ -90,7 +91,7 @@ int main()
             break;
 
         case '7':
-            
+            tecla_7_desenho(valor_led, pio, sm, r, g, b);
             break;
 
         case '8':
