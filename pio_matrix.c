@@ -60,6 +60,19 @@ int main()
             break;
 
         case '3':
+            setar_leds_roxo(tecla3_frame1, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_azul(tecla3_frame2, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_verde(tecla3_frame3, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_vermelho(tecla3_frame4, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_roxo(tecla3_frame5, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_azul(tecla3_frame6, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);        
+            break;
             
             break;
 
