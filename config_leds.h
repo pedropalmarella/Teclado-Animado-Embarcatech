@@ -48,6 +48,22 @@ void setar_leds_azul(double *desenho, uint32_t valor_led, PIO pio, uint sm, doub
             pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
+void setar_leds_ciano(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b){
+
+    for (int16_t i = 0; i < NUM_PIXELS; i++) {
+        
+            valor_led = matrix_rgb(desenho[24-i], r=0.0, g=desenho[24-i]);
+            pio_sm_put_blocking(pio, sm, valor_led);
+    }
+}
+void setar_leds_roxo(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b){
+
+    for (int16_t i = 0; i < NUM_PIXELS; i++) {
+        
+            valor_led = matrix_rgb(desenho[24-i], desenho[24-i], g=0.0);
+            pio_sm_put_blocking(pio, sm, valor_led);
+    }
+}
 void setar_leds_misto(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b){
 
     for (int16_t i = 0; i < NUM_PIXELS; i++) {
