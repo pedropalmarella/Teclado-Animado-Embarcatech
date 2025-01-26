@@ -1,73 +1,58 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include "pico/stdlib.h"
-#include "hardware/pio.h"
 #include "hardware/clocks.h"
-#include "hardware/adc.h"
 #include "pico/bootrom.h"
-#include "pio_matrix.pio.h"
-#include "tecla1_frames.h"//biblioteca com o desenho da tecla 1 
-#include "tecla7_frames.h"
+#include "pio_matrix.pio.h" 
 #include "init_GPIO.h"//biblioteca que inicializa teclado e o botao
+#include "frames.h"//biblioteca com os frames
+#include "config_leds.h"//biblioteca com a config dos leds
+#include <time.h>
+#include "cor.h"
 
-//número de LEDs
-#define NUM_PIXELS 25
 //Debounce (em milissegundos)
 #define DEBOUNCE_TIME 300
-//pino de saída
-#define OUT_PIN 10
-
-//imprimir valor binário
-void imprimir_binario(int num) {
- int i;
- for (i = 31; i >= 0; i--) {
-  (num & (1 << i)) ? printf("1") : printf("0");
- }
-}
-
-//rotina da interrupção
-static void gpio_irq_handler(uint gpio, uint32_t events){
-    printf("Interrupção ocorreu no pino %d, no evento %d\n", gpio, events);
-    printf("HABILITANDO O MODO GRAVAÇÃO");
-	reset_usb_boot(0,0); //habilita o modo de gravação do microcontrolador
-}
 
 //função principal
 int main()
 {
-    PIO pio = pio0; 
-    bool ok;
-    uint16_t i;
-    uint32_t valor_led;
-    double r = 0.0, b = 0.0 , g = 0.0;
-
-    //coloca a frequência de clock para 128 MHz, facilitando a divisão pelo clock
-    ok = set_sys_clock_khz(128000, false);
-
     // Inicializa todos os códigos stdio padrão que estão ligados ao binário.
     stdio_init_all();
     //inicializa teclado e btn0, função no arquivo init_GPIO.h
     init_teclado_btn0();
-
-    printf("iniciando a transmissão PIO");
-    if (ok) printf("clock set to %ld\n", clock_get_hz(clk_sys));
+    
+    PIO pio = pio0; 
+    uint32_t valor_led;
+    double r = 0.0, b = 0.0 , g = 0.0; 
+    bool ok;
+    int corr=0;
+    ok = set_sys_clock_khz(128000, false);//coloca a frequência de clock para 128 MHz, facilitando a divisão pelo clock    
 
     //configurações da PIO
     uint offset = pio_add_program(pio, &pio_matrix_program);
     uint sm = pio_claim_unused_sm(pio, true);
     pio_matrix_program_init(pio, sm, offset, OUT_PIN);
-
-    //interrupção da gpio habilitada
-    gpio_set_irq_enabled_with_callback(button_0, GPIO_IRQ_EDGE_FALL, 1, & gpio_irq_handler);
+    srand(time(NULL)); // ativa os números aleatorios
 
     while (true) 
     {
+        
         char tecla = ler_teclado();
         switch (tecla)
         {
         case '1':
-            tecla_1_desenho(valor_led, pio, sm, r, g, b);
+            setar_leds_azul(tecla1_frame1, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_azul(tecla1_frame2, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_verde(tecla1_frame3, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_vermelho(tecla1_frame4, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_verde(tecla1_frame5, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_azul(tecla1_frame6, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
             break;
 
         case '2':
@@ -75,26 +60,107 @@ int main()
             break;
 
         case '3':
+            setar_leds_roxo(tecla3_frame1, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_azul(tecla3_frame2, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_verde(tecla3_frame3, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_vermelho(tecla3_frame4, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_roxo(tecla3_frame5, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_azul(tecla3_frame6, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);        
+            break;
             
             break;
 
         case '4':
-            
+            setar_leds_verde(tecla4_frame1, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_roxo(tecla4_frame2, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_vermelho(tecla4_frame3, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_azul(tecla4_frame4, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_ciano(tecla4_frame5, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_verde(tecla4_frame6, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
             break;
 
         case '5':
-            
+            setar_leds_azul(tecla5_frame1, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_azul(tecla5_frame2, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_verde(tecla5_frame3, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_vermelho(tecla5_frame4, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_ciano(tecla5_frame5, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_roxo(tecla5_frame6, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);        
             break;
 
         case '6':
+            corr++;
+            if (corr==16)
+            {
+                corr=0;
+            }
             
+            cor(corr,&r, &g, &b);
+            setar_leds_misto(tecla6_frame1, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_misto(tecla6_frame2, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_misto(tecla6_frame3, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_misto(tecla6_frame4, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_misto(tecla6_frame5, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_misto(tecla6_frame6, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
             break;
 
         case '7':
-            tecla_7_desenho(valor_led, pio, sm, r, g, b);
+            setar_leds_vermelho(tecla7_frame1, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_azul(tecla7_frame2, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_azul(tecla7_frame3, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_azul(tecla7_frame4, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            setar_leds_azul(tecla7_frame5, valor_led, pio, sm, r, g, b);
+            sleep_ms(500);
+            
             break;
 
         case '8':
+            
+            setar_leds_azul(tecla8_frame1, valor_led, pio, sm, r, g, b);
+            sleep_ms(200);
+            setar_leds_azul(tecla8_frame2, valor_led, pio, sm, r, g, b);
+            sleep_ms(200);
+            setar_leds_azul(tecla8_frame3, valor_led, pio, sm, r, g, b);
+            sleep_ms(200);
+            setar_leds_azul(tecla8_frame4, valor_led, pio, sm, r, g, b);
+            sleep_ms(200);
+            setar_leds_azul(tecla8_frame5, valor_led, pio, sm, r, g, b);
+            sleep_ms(200);
+            setar_leds_azul(tecla8_frame4, valor_led, pio, sm, r, g, b);
+            sleep_ms(200);
+            setar_leds_azul(tecla8_frame3, valor_led, pio, sm, r, g, b);
+            sleep_ms(200);
+            setar_leds_azul(tecla8_frame2, valor_led, pio, sm, r, g, b);
+            sleep_ms(200);
+            setar_leds_azul(tecla8_frame1, valor_led, pio, sm, r, g, b); 
             
             break;
 
@@ -103,9 +169,33 @@ int main()
             break;
 
         case '0':
-            
+            setar_leds_verde(teclaC_frame, valor_led, pio, sm, r, g, b);
             break;
-           
+        
+        case 'A':
+            setar_leds_todas_cores(teclaA_frame, valor_led, pio, sm, r, g, b);
+            break;
+
+        case 'B':
+            setar_leds_azul(teclaB_frame, valor_led, pio, sm, r, g, b);
+            break;
+
+        case 'C':
+            setar_leds_vermelho(teclaC_frame, valor_led, pio, sm, r, g, b);
+            break;
+
+        case 'D':
+            setar_leds_verde(teclaC_frame, valor_led, pio, sm, r, g, b);
+            break;
+
+        case '*':
+            reset_usb_boot(0, 0);
+            break;
+
+        case '#':
+            setar_leds_todas_cores(teclaHASHTAG_frame, valor_led, pio, sm, r, g, b);
+            break;    
+
         default:
             break;
         }

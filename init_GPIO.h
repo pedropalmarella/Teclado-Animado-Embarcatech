@@ -5,7 +5,8 @@
 // Configuração do teclado matricial
 #define ROWS 4
 #define COLS 4
-const uint button_0 = 5;
+#define OUT_PIN 10
+
 // Pinos para as linhas e colunas do teclado
 const uint linhas[ROWS] = {8, 7, 6, 5};
 const uint colunas[COLS] = {4, 3, 2, 1};
@@ -17,6 +18,7 @@ const char keys[ROWS][COLS] = {
     {'7', '8', '9', 'C'},
     {'*', '0', '#', 'D'}
 };
+
 
 void init_teclado_btn0() {
     // Configura as linhas como saída e colunas como entrada
@@ -30,11 +32,6 @@ void init_teclado_btn0() {
         gpio_set_dir(colunas[i], GPIO_IN);
         gpio_pull_up(colunas[i]); // Ativa pull-up
     }
-
-    //inicializar o botão de interrupção - GPIO5
-    gpio_init(button_0);
-    gpio_set_dir(button_0, GPIO_IN);
-    gpio_pull_up(button_0);
 }
 
 char ler_teclado() {
@@ -52,4 +49,5 @@ char ler_teclado() {
     }
     return '\0'; // Nenhuma tecla pressionada
 }
+
 #endif
