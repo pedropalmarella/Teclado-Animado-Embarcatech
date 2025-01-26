@@ -78,4 +78,7 @@ void generate_random_values(double *val1, double *val2, double *val3) {
     *val2 = (double)rand() / 1;
     *val3 = (double)rand() / 1;
 }
+
 #endif
+
+

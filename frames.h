@@ -1,9 +1,12 @@
+
 #ifndef FRAMES_H // Guardas de inclusão
+
 #define FRAMES_H
 
 #include "pico/stdlib.h"
 
 #define NUM_PIXELS 25
+
 
 double teclaA_frame[25] = {0.0, 0.0, 0.0, 0.0, 0.0,
                            0.0, 0.0, 0.0, 0.0, 0.0,
@@ -276,3 +279,4 @@ double tecla7_frame5[25] = {0.0, 0.4, 0.0, 0.4, 0.0,
                             0.0, 0.0, 0.4, 0.0, 0.0};
 
 #endif
+
