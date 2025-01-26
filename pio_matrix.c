@@ -123,6 +123,24 @@ int main()
 
         case '8':
             
+            setar_leds_azul(tecla8_frame1, valor_led, pio, sm, r, g, b);
+            sleep_ms(200);
+            setar_leds_azul(tecla8_frame2, valor_led, pio, sm, r, g, b);
+            sleep_ms(200);
+            setar_leds_azul(tecla8_frame3, valor_led, pio, sm, r, g, b);
+            sleep_ms(200);
+            setar_leds_azul(tecla8_frame4, valor_led, pio, sm, r, g, b);
+            sleep_ms(200);
+            setar_leds_azul(tecla8_frame5, valor_led, pio, sm, r, g, b);
+            sleep_ms(200);
+            setar_leds_azul(tecla8_frame4, valor_led, pio, sm, r, g, b);
+            sleep_ms(200);
+            setar_leds_azul(tecla8_frame3, valor_led, pio, sm, r, g, b);
+            sleep_ms(200);
+            setar_leds_azul(tecla8_frame2, valor_led, pio, sm, r, g, b);
+            sleep_ms(200);
+            setar_leds_azul(tecla8_frame1, valor_led, pio, sm, r, g, b); 
+            
             break;
 
         case '9':
