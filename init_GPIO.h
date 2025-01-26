@@ -20,7 +20,7 @@ const char keys[ROWS][COLS] = {
 };
 
 
-void init_teclado_btn0() {
+void init_GPIO() {
     // Configura as linhas como saída e colunas como entrada
     for (int i = 0; i < ROWS; i++) {
         gpio_init(linhas[i]);
