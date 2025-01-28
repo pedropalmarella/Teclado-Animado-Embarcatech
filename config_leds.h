@@ -88,4 +88,4 @@ void generate_random_values(double *val1, double *val2, double *val3) {
     *val3 = (double)rand() / 1;
 }
 
-#endif  // Fim da guarda de inclusão
+
