@@ -90,7 +90,7 @@ Este projeto é uma tarefa do programa EMBARCATECH para realizar a implementaç�
 ## Resultados e Demonstração
 
 - Um vídeo com duração máxima de 3 minutos foi produzido para apresentar o funcionamento do projeto. Você pode assistir ao vídeo através do seguinte link:
-  [Apresentação do Projeto](https://youtu.be/exemplo_video).
+  [Apresentação do Projeto](https://youtu.be/JNxLqu3ZwCw).
 
 ---
 
