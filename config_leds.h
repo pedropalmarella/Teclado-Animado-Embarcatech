@@ -75,7 +75,7 @@ void setar_leds_misto(double *desenho, uint32_t valor_led, PIO pio, uint sm, dou
 void setar_leds_amarelo(double *desenho, uint32_t valor_led, PIO pio, uint sm, double r, double g, double b) {
     for (int16_t i = 0; i < NUM_PIXELS; i++) {
         // Amarelo é uma mistura de vermelho e verde
-        valor_led = matrix_rgb(desenho[24-i], desenho[24-i], 0.0);  // Definindo a cor amarela
+        valor_led = matrix_rgb(desenho[24-i], desenho[24-i], g=0.0);  // Definindo a cor amarela
         pio_sm_put_blocking(pio, sm, valor_led);
     }
 }
@@ -87,5 +87,6 @@ void generate_random_values(double *val1, double *val2, double *val3) {
     *val2 = (double)rand() / 1;
     *val3 = (double)rand() / 1;
 }
+#endif
 
 

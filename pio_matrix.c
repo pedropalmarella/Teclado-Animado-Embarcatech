@@ -20,7 +20,7 @@ int main()
     stdio_init_all();
 
     // inicializa teclado e btn0, função no arquivo init_GPIO.h
-    init_teclado_btn0();
+    init_GPIO();
 
     //inicializa teclado e btn0, função no arquivo init_GPIO.h
     init_GPIO();
@@ -143,9 +143,6 @@ int main()
             break;
 
         case '7':
-            break;
-
-        case '8':
             setar_leds_vermelho(tecla7_frame1, valor_led, pio, sm, r, g, b);
             sleep_ms(500);
             setar_leds_azul(tecla7_frame2, valor_led, pio, sm, r, g, b);
@@ -156,7 +153,6 @@ int main()
             sleep_ms(500);
             setar_leds_azul(tecla7_frame5, valor_led, pio, sm, r, g, b);
             sleep_ms(500);
-            
             break;
 
         case '8':
