@@ -19,12 +19,7 @@ int main()
     // Inicializa todos os códigos stdio padrão que estão ligados ao binário.
     stdio_init_all();
 
-    // inicializa teclado e btn0, função no arquivo init_GPIO.h
     init_GPIO();
-
-    //inicializa teclado e btn0, função no arquivo init_GPIO.h
-    init_GPIO();
-
     
     PIO pio = pio0; 
     uint32_t valor_led;
